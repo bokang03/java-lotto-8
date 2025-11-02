@@ -23,6 +23,7 @@ public class LottoController {
         int money = readValidMoney();
         List<Lotto> lottos = autoLottoNum(money);
         List<Integer> winningNumbers = inputWinnerNum();
+        int bonus = readBonusNumber(winningNumbers);
     }
 
     public int readValidMoney() {
@@ -50,6 +51,17 @@ public class LottoController {
             try {
                 System.out.println();
                 return inputView.winningNumbersInput();
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public int readBonusNumber(List<Integer> winningNumbers) {
+        while (true) {
+            try {
+                System.out.println();
+                return inputView.bonusNumberInput(winningNumbers);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
