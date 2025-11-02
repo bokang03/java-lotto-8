@@ -22,4 +22,12 @@ class InputViewTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ErrorMessage.INVALID_NUMBER_INPUT.getMessage());
     }
+
+    @Test
+    void 로또_금액_단위_검증() {
+        // 1,000원 단위가 아닌 경우 IllegalArgumentException 및 메시지 검증
+        assertThatThrownBy(() -> inputView.validateLottoDividePrice(2500))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(ErrorMessage.INVALID_LOTTO_DIVIDE_PRICE.getMessage());
+    }
 }
