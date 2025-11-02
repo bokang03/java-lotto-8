@@ -6,19 +6,10 @@ import lotto.ErrorMessage;
 public class InputView {
 
     public int lottoMoneyInput(){
-        String money;
-
-        while(true) {
-            System.out.println("구입금액을 입력해주세요.");
-            money = Console.readLine();
-            try {
-                validateIntegerInput(money);
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
-                continue;
-            }
-            return Integer.parseInt(money);
-        }
+        System.out.println("구입금액을 입력해주세요.");
+        String InputMoney = Console.readLine();
+        validateIntegerInput(InputMoney);
+        return Integer.parseInt(InputMoney);
     }
 
     public void validateIntegerInput(String validateString){
