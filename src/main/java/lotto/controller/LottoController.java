@@ -20,22 +20,39 @@ public class LottoController {
     }
 
     public void purchaseLotto() {
-        int money;
+        int money = readValidMoney();
+        List<Lotto> lottos = autoLottoNum(money);
+        List<Integer> winningNumbers = inputWinnerNum();
+    }
 
-        while(true) {
+    public int readValidMoney() {
+        while (true) {
             try {
-                money = inputView.lottoMoneyInput();
+                return inputView.lottoMoneyInput();
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
-                continue;
             }
-            break;
         }
+    }
 
+    public List<Lotto> autoLottoNum(int money) {
         int count = money / 1000;
         List<Lotto> lottos = lottoGenerator.randomGenerate(count);
 
         outputView.printPurchaseCount(count);
         outputView.printLottos(lottos);
+
+        return lottos;
+    }
+
+    public List<Integer> inputWinnerNum() {
+        while (true) {
+            try {
+                System.out.println();
+                return inputView.winningNumbersInput();
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 }
