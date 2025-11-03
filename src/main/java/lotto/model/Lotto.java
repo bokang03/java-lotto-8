@@ -1,7 +1,6 @@
 package lotto.model;
 
 import lotto.ErrorMessage;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -13,7 +12,6 @@ public class Lotto {
 
     public Lotto(List<Integer> numbers) {
         validate(numbers);
-        // 오름차순 정렬해서 보관
         this.numbers = numbers.stream()
                 .sorted()
                 .collect(Collectors.toUnmodifiableList());
@@ -25,16 +23,15 @@ public class Lotto {
         }
         Set<Integer> set = new HashSet<>(numbers);
         if (set.size() != numbers.size()) {
-            throw new IllegalArgumentException(ErrorMessage.INVALID_LOTTO_NUMBER_COUNT.getMessage());
+            throw new IllegalArgumentException(ErrorMessage.INVALID_LOTTO_NUMBER_DUPLICATE.getMessage());
         }
         for (int num : numbers) {
             if (num < 1 || num > 45) {
-                throw new IllegalArgumentException("[ERROR] 로또 번호는 1부터 45 사이의 숫자여야 합니다.");
+                throw new IllegalArgumentException(ErrorMessage.INVALID_LOTTO_NUMBER_RANGE.getMessage());
             }
         }
     }
 
-    // TODO: 추가 기능 구현
     @Override
     public String toString() {
         return numbers.toString();

@@ -2,6 +2,8 @@ package lotto.controller;
 
 import lotto.model.Lotto;
 import lotto.model.LottoGenerator;
+import lotto.model.LottoResult;
+import lotto.model.ResultCalculator;
 import lotto.view.InputView;
 import lotto.view.OutputView;
 
@@ -12,11 +14,13 @@ public class LottoController {
     private final InputView inputView;
     private final OutputView outputView;
     private final LottoGenerator lottoGenerator;
+    private final ResultCalculator calculator;
 
     public LottoController(InputView inputView) {
         this.inputView = inputView;
         this.outputView = new OutputView();
         this.lottoGenerator = new LottoGenerator();
+        this.calculator = new ResultCalculator();
     }
 
     public void purchaseLotto() {
@@ -24,6 +28,9 @@ public class LottoController {
         List<Lotto> lottos = autoLottoNum(money);
         List<Integer> winningNumbers = inputWinnerNum();
         int bonus = readBonusNumber(winningNumbers);
+
+        LottoResult result = calculator.calculate(lottos, winningNumbers, bonus);
+        outputView.printStatistics(result, money);
     }
 
     public int readValidMoney() {
@@ -42,7 +49,6 @@ public class LottoController {
 
         outputView.printPurchaseCount(count);
         outputView.printLottos(lottos);
-
         return lottos;
     }
 

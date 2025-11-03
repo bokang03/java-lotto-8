@@ -39,14 +39,28 @@ public class InputView {
     }
 
     private List<Integer> parseLottoNumbers(String winnerLottoNum) {
+        String[] parts = splitParts(winnerLottoNum);
+        validatePartsCount(parts);
+        List<Integer> nums = parsePartsToIntegers(parts);
+        validateNoDuplicate(nums);
+        validateRange(nums);
+        return toSortedUnmodifiableList(nums);
+    }
 
-        if (winnerLottoNum == null) {
+    private String[] splitParts(String input) {
+        if (input == null) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_LOTTO_NUMBER_COUNT.getMessage());
         }
-        String[] parts = winnerLottoNum.split(",");
+        return input.split(",");
+    }
+
+    private void validatePartsCount(String[] parts) {
         if (parts.length != 6) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_LOTTO_NUMBER_COUNT.getMessage());
         }
+    }
+
+    private List<Integer> parsePartsToIntegers(String[] parts) {
         List<Integer> nums = new ArrayList<>();
         for (String p : parts) {
             try {
@@ -55,15 +69,25 @@ public class InputView {
                 throw new IllegalArgumentException(ErrorMessage.INVALID_NUMBER_INPUT.getMessage());
             }
         }
+        return nums;
+    }
+
+    private void validateNoDuplicate(List<Integer> nums) {
         Set<Integer> set = new HashSet<>(nums);
         if (set.size() != nums.size()) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_LOTTO_NUMBER_DUPLICATE.getMessage());
         }
+    }
+
+    private void validateRange(List<Integer> nums) {
         for (int n : nums) {
             if (n < 1 || n > 45) {
                 throw new IllegalArgumentException(ErrorMessage.INVALID_LOTTO_NUMBER_RANGE.getMessage());
             }
         }
+    }
+
+    private List<Integer> toSortedUnmodifiableList(List<Integer> nums) {
         return nums.stream().sorted().collect(Collectors.toUnmodifiableList());
     }
 
